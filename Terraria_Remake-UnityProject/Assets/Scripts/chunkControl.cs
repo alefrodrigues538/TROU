@@ -11,35 +11,36 @@ public class chunkControl : MonoBehaviour {
 	public GameObject background;
 
 	//propriedades da MeshGrid do Chunk
-	public Mesh mesh;
-	public Mesh backgroundMesh;
-
-	//chunk grid
-	public List<Vector2> chunkGrid = new List<Vector2>();
+	Mesh mesh;
+	Mesh backgroundMesh;
 
 	//listas para montar o chunk
-	public List<Vector2> chunkUVGrid = new List<Vector2>();
-	public List<Vector3> chunkVerticesGrid = new List<Vector3>();
-	public List<int> chunkTrianglesGrid = new List<int>();
-	public List<int> chunkEstadoBloco = new List<int>();
-	public List<int> chunkTipoBloco = new List<int>();
-	public List<int> chunkMaterialBloco = new List<int>();
+	List<Vector2> chunkUVGrid = new List<Vector2>();
+	List<Vector3> chunkVerticesGrid = new List<Vector3>();
+	List<int> chunkTrianglesGrid = new List<int>();
+	List<int> chunkEstadoBloco = new List<int>();
+	List<int> chunkTipoBloco = new List<int>();
+	List<int> chunkMaterialBloco = new List<int>();
+	List<int> chunkDirecaoBloco = new List<int>();
 
 	//listas para montar o background do chunk
-	public List<Vector2> chunkUVBackgroundGrid = new List<Vector2>();
-	public List<Vector3> chunkVerticesBackgroundGrid = new List<Vector3>();
-	public List<int> chunkTrianglesBackgroundGrid = new List<int>();
-	public List<int> chunkEstadoBackgroundBloco = new List<int>();
-	public List<int> chunkTipoBackgroundBloco = new List<int>();
-	public List<int> chunkMaterialBackgroundBloco = new List<int>();
+	List<Vector2> chunkUVBackgroundGrid = new List<Vector2>();
+	List<Vector3> chunkVerticesBackgroundGrid = new List<Vector3>();
+	List<int> chunkTrianglesBackgroundGrid = new List<int>();
+	List<int> chunkEstadoBackgroundBloco = new List<int>();
+	List<int> chunkTipoBackgroundBloco = new List<int>();
+	List<int> chunkMaterialBackgroundBloco = new List<int>();
 
-	public List<int> blocosEmVolta = new List<int>();
+	List<int> blocosEmVolta = new List<int>();
 
 	public int chunkX;
 	public int chunkY;
+	public int chunkIndex;
 
 	public bool chunkAtualizado = false;
 	public bool chunkTexturaAtualizado = false;
+
+
 
 	int i = 0;
 
@@ -56,17 +57,10 @@ public class chunkControl : MonoBehaviour {
 	void Update() {
 		
 		if(proceduralGrid.podePreencher && chunkAtualizado == false){
-			chunkGrid.Clear ();
-			for (int x = 0; x <= 99; x++) {
-				for (int y = 0; y <= 99; y++) {
-					chunkGrid.Add (new Vector2(x,y));
-				}
-			}
 			preencherChunk();
-			preencherBackgroundChunk();
 			chunkAtualizado = true;
 
-			atualizarChunk ();
+			//atualizarChunk ();
 
 			i = 0;
 		}
@@ -91,8 +85,8 @@ public class chunkControl : MonoBehaviour {
 			int estBloco = chunkEstadoBloco[chunkBlocoAtual];
 
 			if((posX >= chunkX && posX <= chunkX + 99) && (posY >= chunkY && posY <= chunkY + 99) && estBloco == 1){
-				//deletarBloco(posX,posY);
-				definirTexturaBloco(posX,posY);
+				deletarBloco(posX,posY);
+				//definirTexturaBloco(posX,posY);
 			}
 		}
 
@@ -107,22 +101,17 @@ public class chunkControl : MonoBehaviour {
 			}
 			if((posX >= chunkX && posX <= chunkX + 99) && (posY >= chunkY && posY <= chunkY + 99)){
 				deletarBloco(posX,posY);
-				definirTexturaBloco(p.x,p.y);
+				//definirTexturaBloco(p.x,p.y);
 			}
 		}
 
 		if(Input.GetKeyDown(KeyCode.B)){
-			atualizarChunk ();
+			//atualizarChunk ();
 		}
 	}
 
 	void preencherChunk(){
 		//resetando valores das listas do chunk
-		chunkVerticesGrid.Clear();
-		chunkTrianglesGrid.Clear();
-		chunkUVGrid.Clear();
-		chunkEstadoBloco.Clear();
-		chunkTipoBloco.Clear();
 		//tracker value
 		int blocoAtual = 0;
 
@@ -149,7 +138,7 @@ public class chunkControl : MonoBehaviour {
 					chunkVerticesGrid.Add(new Vector3 (x,y+1,0));
 					chunkVerticesGrid.Add(new Vector3 (x+1,y,0));
 					chunkVerticesGrid.Add(new Vector3 (x+1,y+1,0)); 
-
+				/*
 				//preenchendo estado dos blocos do chunk
 					chunkEstadoBloco.Add(pGrid.estadoBloco[blocoAtual]);
 					chunkEstadoBloco.Add(pGrid.estadoBloco[blocoAtual+1]);
@@ -172,31 +161,21 @@ public class chunkControl : MonoBehaviour {
 					chunkMaterialBloco.Add(pGrid.materialBloco[blocoAtual+2]);
 					chunkMaterialBloco.Add(pGrid.materialBloco[blocoAtual+3]);
 					chunkMaterialBloco.Add(pGrid.materialBloco[blocoAtual+4]);
-					chunkMaterialBloco.Add(pGrid.materialBloco[blocoAtual+5]);
+					chunkMaterialBloco.Add(pGrid.materialBloco[blocoAtual+5]);*/
 
-				if(pGrid.estadoBloco[blocoAtual] == 1){
 
-					//preenchendo triangulos do chunk
-						chunkTrianglesGrid.Add(t);
-						chunkTrianglesGrid.Add(t+1);
-						chunkTrianglesGrid.Add(t+2);
-						chunkTrianglesGrid.Add(t+2);
-						chunkTrianglesGrid.Add(t+1);
-						chunkTrianglesGrid.Add(t+3);
+				//preenchendo triangulos do chunk
+					chunkTrianglesGrid.Add(t);
+					chunkTrianglesGrid.Add(t+1);
+					chunkTrianglesGrid.Add(t+2);
+					chunkTrianglesGrid.Add(t+2);
+					chunkTrianglesGrid.Add(t+1);
+					chunkTrianglesGrid.Add(t+3);
 
-				}else if(pGrid.estadoBloco[blocoAtual] == 0){
 
-					//preenchendo triangulos do chunk
-						chunkTrianglesGrid.Add(t);
-						chunkTrianglesGrid.Add(t);
-						chunkTrianglesGrid.Add(t);
-						chunkTrianglesGrid.Add(t);
-						chunkTrianglesGrid.Add(t);
-						chunkTrianglesGrid.Add(t);
-				}
 
 				//populando Uvs do chunk
-					
+				/*	
 					if(pGrid.materialBloco[blocoAtual] == 0){
 						uvPosY = 0;
 					}
@@ -210,7 +189,8 @@ public class chunkControl : MonoBehaviour {
 					chunkUVGrid.Add (new Vector2(uvPosX+(uvPosX*3),uvPosY));
 					chunkUVGrid.Add (new Vector2(uvPosX+(uvPosX*3),uvPosY+(1 / totalBlocosVertical)));
 					chunkUVGrid.Add (new Vector2(uvPosX+(uvPosX*4),uvPosY));
-					chunkUVGrid.Add (new Vector2(uvPosX+(uvPosX*4),uvPosY+(1 / totalBlocosVertical)));
+					chunkUVGrid.Add (new Vector2(uvPosX+(uvPosX*4),uvPosY+(1 / totalBlocosVertical)));*/
+
 					
 				t += 4;
 			}
@@ -218,106 +198,11 @@ public class chunkControl : MonoBehaviour {
 	}
 
 	void atualizarChunk(){
-		for (int x = chunkX; x < chunkX + 100; x++) {
+		/*for (int x = chunkX; x < chunkX + 100; x++) {
 			for (int y = chunkY; y < chunkY + 100; y++) {
-				definirTexturaBloco(x,y);
+				definirTexturaBloco (x,y);
 			}
-		}
-	}
-
-	void preencherBackgroundChunk(){
-		//resetando valores das listas do chunk
-		chunkVerticesBackgroundGrid.Clear();
-		chunkTrianglesBackgroundGrid.Clear();
-		chunkUVBackgroundGrid.Clear();
-		chunkEstadoBackgroundBloco.Clear();
-		chunkTipoBackgroundBloco.Clear();
-		//tracker value
-		int blocoAtual = 0;
-
-		int t = 0;
-
-
-		//total de blocos na HORIZONTAL
-		float totalBlocosHorizontal = 17;
-
-		//total de blocos na VERTICAL
-		float totalBlocosVertical = 3;
-
-		//posiçoes da UV;
-		float uvPosX = (1 / totalBlocosHorizontal);
-		float uvPosY = (1 / totalBlocosVertical);
-
-
-		for( int x = chunkX; x < chunkX + 100; x++){
-			for( int y = chunkY; y < chunkY + 100; y++){
-				blocoAtual = (y + (x * pGrid.gridSizeY))*4;
-
-				//preenchendo vertices do chunk
-					chunkVerticesBackgroundGrid.Add(new Vector3 (x,y,0));
-					chunkVerticesBackgroundGrid.Add(new Vector3 (x,y+1,0));
-					chunkVerticesBackgroundGrid.Add(new Vector3 (x+1,y,0));
-					chunkVerticesBackgroundGrid.Add(new Vector3 (x+1,y+1,0)); 
-
-				//preenchendo estado dos blocos do chunk
-					chunkEstadoBackgroundBloco.Add(pGrid.estadoBackgroundBloco[blocoAtual]);
-					chunkEstadoBackgroundBloco.Add(pGrid.estadoBackgroundBloco[blocoAtual+1]);
-					chunkEstadoBackgroundBloco.Add(pGrid.estadoBackgroundBloco[blocoAtual+2]);
-					chunkEstadoBackgroundBloco.Add(pGrid.estadoBackgroundBloco[blocoAtual+3]);
-					chunkEstadoBackgroundBloco.Add(pGrid.estadoBackgroundBloco[blocoAtual+4]);
-					chunkEstadoBackgroundBloco.Add(pGrid.estadoBackgroundBloco[blocoAtual+5]);
-
-				//preenchendo tipo dos blocos do chunk
-					chunkTipoBackgroundBloco.Add(pGrid.tipoBackgroundBloco[blocoAtual]);
-					chunkTipoBackgroundBloco.Add(pGrid.tipoBackgroundBloco[blocoAtual+1]);
-					chunkTipoBackgroundBloco.Add(pGrid.tipoBackgroundBloco[blocoAtual+2]);
-					chunkTipoBackgroundBloco.Add(pGrid.tipoBackgroundBloco[blocoAtual+3]);
-					chunkTipoBackgroundBloco.Add(pGrid.tipoBackgroundBloco[blocoAtual+4]);
-					chunkTipoBackgroundBloco.Add(pGrid.tipoBackgroundBloco[blocoAtual+5]);
-
-				if(pGrid.estadoBackgroundBloco[blocoAtual] == 1){
-
-					//preenchendo triangulos do chunk
-						chunkTrianglesBackgroundGrid.Add(t);
-						chunkTrianglesBackgroundGrid.Add(t+1);
-						chunkTrianglesBackgroundGrid.Add(t+2);
-						chunkTrianglesBackgroundGrid.Add(t+2);
-						chunkTrianglesBackgroundGrid.Add(t+1);
-						chunkTrianglesBackgroundGrid.Add(t+3);
-
-				}else if(pGrid.estadoBackgroundBloco[blocoAtual] == 0){
-
-					//preenchendo triangulos do chunk
-						chunkTrianglesBackgroundGrid.Add(t);
-						chunkTrianglesBackgroundGrid.Add(t);
-						chunkTrianglesBackgroundGrid.Add(t);
-						chunkTrianglesBackgroundGrid.Add(t);
-						chunkTrianglesBackgroundGrid.Add(t);
-						chunkTrianglesBackgroundGrid.Add(t);
-				}
-
-				//populando Uvs do chunk
-					
-					if(pGrid.materialBackgroundBloco[blocoAtual] == 0){
-						uvPosY = 0;
-					}
-					else if(pGrid.materialBackgroundBloco[blocoAtual] == 1){
-						uvPosY = (1 / totalBlocosVertical);
-					}
-					else if(pGrid.materialBackgroundBloco[blocoAtual] == 2){
-						uvPosY = (1 / totalBlocosVertical)*2;
-					}
-
-					chunkUVBackgroundGrid.Add (new Vector2(uvPosX+(uvPosX*3),uvPosY));
-					chunkUVBackgroundGrid.Add (new Vector2(uvPosX+(uvPosX*3),uvPosY+(1 / totalBlocosVertical)));
-					chunkUVBackgroundGrid.Add (new Vector2(uvPosX+(uvPosX*4),uvPosY));
-					chunkUVBackgroundGrid.Add (new Vector2(uvPosX+(uvPosX*4),uvPosY+(1 / totalBlocosVertical)));
-					
-				t += 4;
-			}
-		}
-
-
+		}*/
 	}
 
 	void deletarBloco(int posX, int posY){
@@ -344,10 +229,7 @@ public class chunkControl : MonoBehaviour {
 		chunkMaterialBloco [chunkBlocoAtual+2] = -1;
 		chunkMaterialBloco [chunkBlocoAtual+3] = -1;
 
-		chunkUVGrid[chunkBlocoAtual] = new Vector2(0.94117648f,0f);
-		chunkUVGrid[chunkBlocoAtual+1] = new Vector2(0.94117648f,0.33333333f);
-		chunkUVGrid[chunkBlocoAtual+2] = new Vector2(1.00000001f,0f);
-		chunkUVGrid[chunkBlocoAtual+3] = new Vector2(1.00000001f,0.33333333f);
+		setUvBlock (17, chunkBlocoAtual);
 
 		//print(chunkEstadoBloco[chunkBlocoAtual]);
 
@@ -592,13 +474,13 @@ public class chunkControl : MonoBehaviour {
 
 	public void definirTexturaBloco(float posX,float posY){
 
-		if(posX > 99f){
+		if(posX > 100f){
 			posX -= chunkX;
 		}
 		if(posX < 0f){
 			posX = 0f;
 		}
-		if(posY > 99f){
+		if(posY > 100f){
 			posY -= chunkY;
 		}
 		if(posY < 0f){
@@ -616,39 +498,39 @@ public class chunkControl : MonoBehaviour {
 		Vector2 baixo = new Vector2 (posX,posY-1);
 		Vector2 baixoD = new Vector2 (posX+1,posY-1);
 
-		if(cimaE.x >= 0 && cimaE.y >= 0 && cimaE.x < 99 && cimaE.y < 99){
+		if(cimaE.x >= 0 && cimaE.y >= 0 && cimaE.x < 100 && cimaE.y < 100){
 			definirTexturaMeshGrid (Mathf.FloorToInt(cimaE.x),Mathf.FloorToInt(cimaE.y));
 
 		}
-		if(cima.x >= 0 && cima.y >= 0 && cima.x < 99 && cima.y < 99){
+		if(cima.x >= 0 && cima.y >= 0 && cima.x < 100 && cima.y < 100){
 			definirTexturaMeshGrid (Mathf.FloorToInt(cima.x),Mathf.FloorToInt(cima.y));
 
 		}
-		if(cimaD.x >= 0 && cimaD.y >= 0 && cimaD.x < 99 && cimaD.y < 99){
+		if(cimaD.x >= 0 && cimaD.y >= 0 && cimaD.x < 100 && cimaD.y < 100){
 			definirTexturaMeshGrid (Mathf.FloorToInt(cimaD.x),Mathf.FloorToInt(cimaD.y));
 
 		}
-		if(mE.x >= 0 && mE.y >= 0 && mE.x < 99 && mE.y < 99){
+		if(mE.x >= 0 && mE.y >= 0 && mE.x < 100 && mE.y < 100){
 			definirTexturaMeshGrid (Mathf.FloorToInt(mE.x),Mathf.FloorToInt(mE.y));
 
 		}
-		if(m.x >= 0 && m.y >= 0 && m.x < 99 && m.y < 99){
+		if(m.x >= 0 && m.y >= 0 && m.x < 100 && m.y < 100){
 			definirTexturaMeshGrid (Mathf.FloorToInt(m.x),Mathf.FloorToInt(m.y));
 
 		}
-		if(mD.x >= 0 && mD.y >= 0 && mD.x < 99 && mD.y < 99){
+		if(mD.x >= 0 && mD.y >= 0 && mD.x < 100 && mD.y < 100){
 			definirTexturaMeshGrid (Mathf.FloorToInt(mD.x),Mathf.FloorToInt(mD.y));
 
 		}
-		if(baixoE.x >= 0 && baixoE.y >= 0 && baixoE.x < 99 && baixoE.y < 99){
+		if(baixoE.x >= 0 && baixoE.y >= 0 && baixoE.x < 100 && baixoE.y < 100){
 			definirTexturaMeshGrid (Mathf.FloorToInt(baixoE.x),Mathf.FloorToInt(baixoE.y));
 
 		}
-		if(baixo.x >= 0 && baixo.y >= 0 && baixo.x < 99 && baixo.y < 99){
+		if(baixo.x >= 0 && baixo.y >= 0 && baixo.x < 100 && baixo.y < 100){
 			definirTexturaMeshGrid (Mathf.FloorToInt(baixo.x),Mathf.FloorToInt(baixo.y));
 
 		}
-		if(baixoD.x >= 0 && baixoD.y >= 0 && baixoD.x < 99 && baixoD.y < 99){
+		if(baixoD.x >= 0 && baixoD.y >= 0 && baixoD.x < 100 && baixoD.y < 100){
 			definirTexturaMeshGrid (Mathf.FloorToInt(baixoD.x),Mathf.FloorToInt(baixoD.y));
 
 		}
@@ -659,16 +541,16 @@ public class chunkControl : MonoBehaviour {
 	}
 
 	public void definirTexturaMeshGrid(int posX, int posY){
-		bool encontrou = false;
-		int[] sequencia;
-		int[] matBloco = new int[9];
-		//formulas para identificar todos os blocos em volta do bloco a ser analisado
-		if (posX > 99) {
+
+		if(posX >= 100){
 			posX -= chunkX;
 		}
-		if (posX < 0) {
+
+		if(posX < 0){
 			posX = 0;
 		}
+
+		//formulas para identificar todos os blocos em volta do bloco a ser analisado
 		int cimaEsquerda = (posY + (posX * 100) - 99) * 4;
 		int cima = (posY + (posX * 100) + 1) * 4;
 		int cimaDireita = (posY + (posX * 100) + 101) * 4;
@@ -678,6 +560,16 @@ public class chunkControl : MonoBehaviour {
 		int baixoEsquerda = (posY + (posX * 100) - 101) * 4;
 		int baixo = (posY + (posX * 100) - 1) * 4;
 		int baixoDireita = (posY + (posX * 100) + 99) * 4;
+
+		/*int cimaEsquerda = (posY + (posX * pGrid.gridSizeY) - (pGrid.gridSizeY -1)) * 4;
+		int cima = (posX + (posX * pGrid.gridSizeY) + 1) * 4;
+		int cimaDireita = (posY + (posX * pGrid.gridSizeY) + (pGrid.gridSizeY +1)) * 4;
+		int meioEsquerda = (posY + (posX * pGrid.gridSizeY) - pGrid.gridSizeY) * 4;
+		int meio = (posY + (posX * pGrid.gridSizeY)) * 4;
+		int meioDireita = (posY + (posX * pGrid.gridSizeY) + pGrid.gridSizeY) * 4;
+		int baixoEsquerda = (posY + (posX * pGrid.gridSizeY) - (pGrid.gridSizeY +1)) * 4;
+		int baixo = (posY + (posX * pGrid.gridSizeY) - 1) * 4;
+		int baixoDireita = (posY + (posX * pGrid.gridSizeY) + (pGrid.gridSizeY -1)) * 4;*/
 
 		/*print(  cimaEsquerda+","+
 				cima+","+
@@ -755,6 +647,16 @@ public class chunkControl : MonoBehaviour {
 
 		blocosEmVolta.Clear ();
 
+		/*blocosEmVolta.Add (pGrid.materialBloco [cimaEsquerda]);
+		blocosEmVolta.Add (pGrid.materialBloco [cima]);
+		blocosEmVolta.Add (pGrid.materialBloco [cimaDireita]);
+		blocosEmVolta.Add (pGrid.materialBloco [meioEsquerda]);
+		blocosEmVolta.Add (pGrid.materialBloco [meio]);
+		blocosEmVolta.Add (pGrid.materialBloco [meioDireita]);
+		blocosEmVolta.Add (pGrid.materialBloco [baixoEsquerda]);
+		blocosEmVolta.Add (pGrid.materialBloco [baixo]);
+		blocosEmVolta.Add (pGrid.materialBloco [baixoDireita]);*/
+
 		blocosEmVolta.Add (chunkMaterialBloco [cimaEsquerda]);
 		blocosEmVolta.Add (chunkMaterialBloco [cima]);
 		blocosEmVolta.Add (chunkMaterialBloco [cimaDireita]);
@@ -767,46 +669,51 @@ public class chunkControl : MonoBehaviour {
 
 		int dirBloco = 0;
 
-		if (blocosEmVolta [0] != blocosEmVolta [4] && chunkEstadoBloco[meio] != 0) {
+		if (blocosEmVolta [0] != blocosEmVolta [4] && pGrid.estadoBloco[meio] != 0) {
 			dirBloco += 8;
 		}
 
-		if (blocosEmVolta [1] != blocosEmVolta [4] && chunkEstadoBloco[meio] != 0) {
+		if (blocosEmVolta [1] != blocosEmVolta [4] && pGrid.estadoBloco[meio] != 0) {
 			dirBloco += 16;
 		}
 
-		if (blocosEmVolta [2] != blocosEmVolta [4] && chunkEstadoBloco[meio] != 0) {
+		if (blocosEmVolta [2] != blocosEmVolta [4] && pGrid.estadoBloco[meio] != 0) {
 			dirBloco += 32;
 		}
 
-		if (blocosEmVolta [3] != blocosEmVolta [4] && chunkEstadoBloco[meio] != 0) {
+		if (blocosEmVolta [3] != blocosEmVolta [4] && pGrid.estadoBloco[meio] != 0) {
 			dirBloco += 64;
 		}
 
-		if (blocosEmVolta [4] != blocosEmVolta [4] && chunkEstadoBloco[meio] != 0) {
+		if (blocosEmVolta [4] != blocosEmVolta [4] && pGrid.estadoBloco[meio] != 0) {
 			dirBloco += 128;
 		}
 
-		if (blocosEmVolta [5] != blocosEmVolta [4] && chunkEstadoBloco[meio] != 0) {
+		if (blocosEmVolta [5] != blocosEmVolta [4] && pGrid.estadoBloco[meio] != 0) {
 			dirBloco += 256;
 		}
 
-		if (blocosEmVolta [6] != blocosEmVolta [4] && chunkEstadoBloco[meio] != 0) {
+		if (blocosEmVolta [6] != blocosEmVolta [4] && pGrid.estadoBloco[meio] != 0) {
 			dirBloco += 512;
 		}
 
-		if (blocosEmVolta [7] != blocosEmVolta [4] && chunkEstadoBloco[meio] != 0) {
+		if (blocosEmVolta [7] != blocosEmVolta [4] && pGrid.estadoBloco[meio] != 0) {
 			dirBloco += 1024;
 		}
 
-		if (blocosEmVolta [8] != blocosEmVolta [4] && chunkEstadoBloco[meio] != 0) {
+		if (blocosEmVolta [8] != blocosEmVolta [4] && pGrid.estadoBloco[meio] != 0) {
 			dirBloco += 2048;
 		}
 
 
+		//se o estado do bloco for 0
+		if(chunkEstadoBloco[meio] == 0){
+			setUvBlock (17, meio);
+			dirBloco = 0;
+		}
 
 		//tudo
-		if (
+		else if (
 			dirBloco == 2608 ||
 			dirBloco == 2576 ||
 			dirBloco == 2096 ||
@@ -1166,10 +1073,7 @@ public class chunkControl : MonoBehaviour {
 			dirBloco = 0;
 		} 
 
-		else if(chunkEstadoBloco[meio] == 0){
-			setUvBlock (17, meio);
-			dirBloco = 0;
-		}
+
 
 
 		/*
