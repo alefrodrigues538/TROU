@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 23360139157530000}
   - component: {fileID: 64365196075786320}
   - component: {fileID: 114683344843593684}
+  - component: {fileID: 114595438530477422}
   m_Layer: 0
   m_Name: chunkObject
   m_TagString: Untagged
@@ -172,7 +173,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 0}
---- !u!114 &114683344843593684
+--- !u!114 &114595438530477422
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -180,11 +181,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 1265705974658214}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7546ba5eebe22b146ab89b101fcbe51f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pGrid: {fileID: 0}
+  chunkX: 0
+  chunkY: 0
+  background: {fileID: 1056585305812554}
+--- !u!114 &114683344843593684
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1265705974658214}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd7c2a60a3b56654b8d5332e226a7438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   background: {fileID: 1056585305812554}
   chunkX: 0
   chunkY: 0
+  chunkIndex: 0
   chunkAtualizado: 0
   chunkTexturaAtualizado: 0

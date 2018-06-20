@@ -16,8 +16,8 @@ public class loadScene : MonoBehaviour {
 		for (int x = 0; x < gridSize.x; x++) {
 			for (int y = 0; y < gridSize.y; y++) {
 				GameObject currentChunk = Instantiate (chunkObject,new Vector2(0,0),Quaternion.identity);
-				currentChunk.GetComponent<chunkControl> ().chunkX = x * 100;
-				currentChunk.GetComponent<chunkControl> ().chunkY = y * 100;
+				currentChunk.GetComponent<chunkCtrl> ().chunkX = x * 100;
+				currentChunk.GetComponent<chunkCtrl> ().chunkY = y * 100;
 				currentChunk.name = "x:" + x*100 + ",y:" + y*100;
 
 				currentChunk.transform.SetParent (Chunks.transform);

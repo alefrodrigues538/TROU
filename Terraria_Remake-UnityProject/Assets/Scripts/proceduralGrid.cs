@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class proceduralGrid : MonoBehaviour {
 
-
-	//chunks
-	public List <GameObject> chunksObjects = new List<GameObject>();
+	public List <GameObject> chunksObjects = new List <GameObject>();
 
 	//arrays para montar a MeshGrid
 	public List <int> tipoBloco = new List <int>();
@@ -17,10 +15,6 @@ public class proceduralGrid : MonoBehaviour {
 	public List <int> tipoBackgroundBloco = new List <int>();
 	public List <int> materialBackgroundBloco = new List <int>();
 	public List <int> estadoBackgroundBloco = new List <int>();
-	public List <int> direcaoBackgroundBloco = new List <int>();
-
-
-	List<int> blocosEmVolta = new List<int>();
 
 	//tamanho da MeshGrid;
 	public int gridSizeX;
@@ -31,9 +25,13 @@ public class proceduralGrid : MonoBehaviour {
 
 	//autorizaçao para so chunks começar a se preencher de dados das listas principais
 	public static bool podePreencher;
+
+	//lista de blocos em volta
+	List <int> blocosEmVolta = new List <int>();
 	
 
 	void Awake(){
+
 	}
 	void Start () {
 
@@ -42,13 +40,19 @@ public class proceduralGrid : MonoBehaviour {
 		//CRIAR MESHGRID
 		if(Input.GetKeyDown(KeyCode.Space) && !podePreencher){
 			makeDiscreteGrid();
-			//setDirecaoBlocos ();
+			print("podePreencher");
 			podePreencher = true;
+			
+		}
+		if(Input.GetKeyDown(KeyCode.Alpha1)){
+			setDirecaoBlocos();
+			print(direcaoBloco.Count);
 		}
 
 	}
 
 	void makeDiscreteGrid () {
+
 		//Set trackers integer 
 		int v = 0;
 		int t = 0;
@@ -60,20 +64,7 @@ public class proceduralGrid : MonoBehaviour {
 		for(int x = 0; x < gridSizeX; x++){
 			for(int y = 0; y < gridSizeY; y++){
 				material = Random.Range(0,3);
-				//tipo do bloco
-				tipoBloco.Add(2);
-				tipoBloco.Add(2);
-				tipoBloco.Add(2);
-				tipoBloco.Add(2);
-				tipoBloco.Add(2);
-				tipoBloco.Add(2);
-
-				tipoBackgroundBloco.Add(2);
-				tipoBackgroundBloco.Add(2);
-				tipoBackgroundBloco.Add(2);
-				tipoBackgroundBloco.Add(2);
-				tipoBackgroundBloco.Add(2);
-				tipoBackgroundBloco.Add(2);
+				//print(material);
 
 				//material do bloco
 				materialBloco.Add(material);
@@ -110,72 +101,92 @@ public class proceduralGrid : MonoBehaviour {
 
 			}
 		}
-
 	}
 
-	void calcularDirecaoBlocos(){
-		int dirBloco = 0;
-		for (int x = 0; x < gridSizeX; x++) {
-			for (int y = 0; y < gridSizeY; y++) {
-
-				//formulas para identificar todos os blocos em volta do bloco a ser analisado
-				int cimaEsquerda = (y + (x * gridSizeY) - (gridSizeY -1)) * 4;
+	void setDirecaoBlocos(){
+			direcaoBloco.Clear();
+			for(int x = 0; x < gridSizeX; x++){
+				for(int y = 0; y < gridSizeY; y++){
+				//formulas para descobrir blocos em volta
+				int cimaEsquerda = (y + (x * gridSizeY) - (gridSizeY - 1))*4;
 				int cima = (y + (x * gridSizeY) + 1) * 4;
-				int cimaDireita = (y + (x * gridSizeY) + (gridSizeY +1)) * 4;
+				int cimaDireita = (y + (x * gridSizeY) + (gridSizeY + 1)) * 4;
 				int meioEsquerda = (y + (x * gridSizeY) - gridSizeY) * 4;
 				int meio = (y + (x * gridSizeY)) * 4;
 				int meioDireita = (y + (x * gridSizeY) + gridSizeY) * 4;
-				int baixoEsquerda = (y + (x * gridSizeY) - (gridSizeY +1)) * 4;
+				int baixoEsquerda = (y + (x * gridSizeY) - (gridSizeY + 1)) * 4;
 				int baixo = (y + (x * gridSizeY) - 1) * 4;
-				int baixoDireita = (y + (x * gridSizeY) + (gridSizeY -1)) * 4;
+				int baixoDireita = (y + (x * gridSizeY) + (gridSizeY - 1)) * 4;
 
-
-
-				//resetando os bloco que estiverem em posiçoes negativas e/ou sua posiçoes forem maiores menores que o vetor
-				if (cimaEsquerda < 0) {
+				//RESETANDO OS BLOCOS QUE ESTIVEREM EM POSIÇOES NEGATIVAS E/OU SUA POSIÇAO FOR MENOR QUE O VETOR
+				if(cimaEsquerda < 0){
 					cimaEsquerda = 0;
-					estadoBloco [cimaEsquerda] = 0;
+					estadoBloco[cimaEsquerda] = 0;
 				}
-				if (cima < 0) {
+				if(cima < 0){
 					cima = 0;
-					estadoBloco [cima] = 0;
+					estadoBloco[cima] = 0;
 				}
-				if (cimaDireita < 0) {
+				if(cimaDireita < 0){
 					cimaDireita = 0;
-					estadoBloco [cimaDireita] = 0;
+					estadoBloco[cimaDireita] = 0;
 				}
-				if (meioEsquerda < 0) {
+				if(meioEsquerda < 0){
 					meioEsquerda = 0;
-					estadoBloco [meioEsquerda] = 0;
+					estadoBloco[meioEsquerda] = 0;
 				}
-				if (meioDireita < 0) {
+				if(meioDireita < 0){
 					meioDireita = 0;
-					estadoBloco [meioDireita] = 0;
+					estadoBloco[meioDireita] = 0;
 				}
-				if (baixoEsquerda < 0) {
+				if(baixoEsquerda < 0){
 					baixoEsquerda = 0;
-					estadoBloco [baixoEsquerda] = 0;
+					estadoBloco[baixoEsquerda] = 0;
 				}
-				if (baixo < 0) {
+				if(baixo < 0){
 					baixo = 0;
-					estadoBloco [baixo] = 0;
+					estadoBloco[baixo] = 0;
 				}
-				if (baixoDireita < 0) {
+				if(baixoDireita < 0){
 					baixoDireita = 0;
-					estadoBloco [baixoDireita] = 0;
+					estadoBloco[baixoDireita] = 0;
 				}
+				/*
+				print(
+					cimaEsquerda + "," +
+					cima + "," +
+					cimaDireita + "," +
+					meioEsquerda + "," +
+					meio + "," +
+					meioDireita + "," +
+					baixoEsquerda + "," +
+					baixo + "," +
+					baixoDireita);*/
 
-				blocosEmVolta.Add (materialBloco[cimaEsquerda]);
-				blocosEmVolta.Add (materialBloco[cima]);
-				blocosEmVolta.Add (materialBloco[cimaDireita]);
-				blocosEmVolta.Add (materialBloco[meioEsquerda]);
-				blocosEmVolta.Add (materialBloco[meio]);
-				blocosEmVolta.Add (materialBloco[meioDireita]);
-				blocosEmVolta.Add (materialBloco[baixoEsquerda]);
-				blocosEmVolta.Add (materialBloco[baixo]);
-				blocosEmVolta.Add (materialBloco[baixoDireita]);
+				//PREENCHENDO BLOCOS EM VOLTA
+					blocosEmVolta.Add(materialBloco[cimaEsquerda]);
+					blocosEmVolta.Add(materialBloco[cima]);
+					blocosEmVolta.Add(materialBloco[cimaDireita]);
+					blocosEmVolta.Add(materialBloco[meioEsquerda]);
+					blocosEmVolta.Add(materialBloco[meio]);
+					blocosEmVolta.Add(materialBloco[meioDireita]);
+					blocosEmVolta.Add(materialBloco[baixoEsquerda]);
+					blocosEmVolta.Add(materialBloco[baixo]);
+					blocosEmVolta.Add(materialBloco[baixoDireita]);
 
-				//definindo valores do dirBloco
+					/*print(  blocosEmVolta[0] + "," +
+							blocosEmVolta[1] + "," +
+							blocosEmVolta[2] + "," +
+							blocosEmVolta[3] + "," +
+							blocosEmVolta[4] + "," +
+							blocosEmVolta[5] + "," +
+							blocosEmVolta[6] + "," +
+							blocosEmVolta[7] + "," +
+							blocosEmVolta[8]);*/
+
+				//DEFININDO VALORES DAS DIREÇOES DA LISTA BLOCOS EM VOLTA
+				int dirBloco = 0;
+
 				if (blocosEmVolta [0] != blocosEmVolta [4] && estadoBloco[meio] != 0) {
 					dirBloco += 8;
 				}
@@ -212,11 +223,13 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco += 2048;
 				}
 
-
-				//definindo valores da lista direcaoBLoco
+				//print(dirBloco);
 
 				//se o estado do bloco for 0
 				if(estadoBloco[meio] == 0){
+					direcaoBloco.Add (17);
+					direcaoBloco.Add (17);
+					direcaoBloco.Add (17);
 					direcaoBloco.Add (17);
 					dirBloco = 0;
 				}
@@ -239,6 +252,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 2056) 
 				{
 					direcaoBloco.Add (5);
+					direcaoBloco.Add (5);
+					direcaoBloco.Add (5);
+					direcaoBloco.Add (5);
 					dirBloco = 0;
 				}
 
@@ -257,6 +273,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 3416 ||
 					dirBloco == 3440)
 				{
+					direcaoBloco.Add (10);
+					direcaoBloco.Add (10);
+					direcaoBloco.Add (10);
 					direcaoBloco.Add (10);
 					dirBloco = 0;
 				}
@@ -279,6 +298,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 2640 ||
 					dirBloco == 2128) 
 				{
+					direcaoBloco.Add (1);
+					direcaoBloco.Add (1);
+					direcaoBloco.Add (1);
 					direcaoBloco.Add (1);
 					dirBloco = 0;
 				}
@@ -303,6 +325,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 2616) 
 				{
 					direcaoBloco.Add (2);
+					direcaoBloco.Add (2);
+					direcaoBloco.Add (2);
+					direcaoBloco.Add (2);
 					dirBloco = 0;
 				}
 
@@ -325,6 +350,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 792 ||
 					dirBloco == 2840) 
 				{
+					direcaoBloco.Add (3);
+					direcaoBloco.Add (3);
+					direcaoBloco.Add (3);
 					direcaoBloco.Add (3);
 					dirBloco = 0;
 				}
@@ -349,6 +377,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 2664) 
 				{
 					direcaoBloco.Add (4);
+					direcaoBloco.Add (4);
+					direcaoBloco.Add (4);
+					direcaoBloco.Add (4);
 					dirBloco = 0;
 				}
 
@@ -371,6 +402,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 808 ||
 					dirBloco == 2856) 
 				{
+					direcaoBloco.Add (6);
+					direcaoBloco.Add (6);
+					direcaoBloco.Add (6);
 					direcaoBloco.Add (6);
 					dirBloco = 0;
 				}
@@ -395,6 +429,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 3176) 
 				{
 					direcaoBloco.Add (7);
+					direcaoBloco.Add (7);
+					direcaoBloco.Add (7);
+					direcaoBloco.Add (7);
 					dirBloco = 0;
 				}
 
@@ -417,6 +454,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 3112 ||
 					dirBloco == 3624) 
 				{
+					direcaoBloco.Add (8);
+					direcaoBloco.Add (8);
+					direcaoBloco.Add (8);
 					direcaoBloco.Add (8);
 					dirBloco = 0;
 				}
@@ -441,6 +481,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 1832) 
 				{
 					direcaoBloco.Add (9);
+					direcaoBloco.Add (9);
+					direcaoBloco.Add (9);
+					direcaoBloco.Add (9);
 					dirBloco = 0;
 				}
 
@@ -463,6 +506,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 2904 ||
 					dirBloco == 2896) 
 				{
+					direcaoBloco.Add (11);
+					direcaoBloco.Add (11);
+					direcaoBloco.Add (11);
 					direcaoBloco.Add (11);
 					dirBloco = 0;
 				}
@@ -487,6 +533,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 1384) 
 				{
 					direcaoBloco.Add (12);
+					direcaoBloco.Add (12);
+					direcaoBloco.Add (12);
+					direcaoBloco.Add (12);
 					dirBloco = 0;
 				}
 
@@ -509,6 +558,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 3192 ||
 					dirBloco == 3184) 
 				{
+					direcaoBloco.Add (13);
+					direcaoBloco.Add (13);
+					direcaoBloco.Add (13);
 					direcaoBloco.Add (13);
 					dirBloco = 0;
 				}
@@ -533,6 +585,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 1816) 
 				{
 					direcaoBloco.Add (14);
+					direcaoBloco.Add (14);
+					direcaoBloco.Add (14);
+					direcaoBloco.Add (14);
 					dirBloco = 0;
 				}
 
@@ -555,6 +610,9 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 352 ||
 					dirBloco == 320) 
 				{
+					direcaoBloco.Add (15);
+					direcaoBloco.Add (15);
+					direcaoBloco.Add (15);
 					direcaoBloco.Add (15);
 					dirBloco = 0;
 				}
@@ -579,10 +637,14 @@ public class proceduralGrid : MonoBehaviour {
 					dirBloco == 1040) 
 				{
 					direcaoBloco.Add (16);
+					direcaoBloco.Add (16);
+					direcaoBloco.Add (16);
+					direcaoBloco.Add (16);
 					dirBloco = 0;
 				} 
 
 			}
 		}
+
 	}
 }

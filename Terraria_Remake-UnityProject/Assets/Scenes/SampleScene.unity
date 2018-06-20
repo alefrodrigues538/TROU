@@ -176,8 +176,7 @@ MonoBehaviour:
   tipoBackgroundBloco: 
   materialBackgroundBloco: 
   estadoBackgroundBloco: 
-  direcaoBackgroundBloco: 
-  gridSizeX: 200
+  gridSizeX: 300
   gridSizeY: 200
   myCam: {fileID: 1019980169}
 --- !u!1 &1019980165
