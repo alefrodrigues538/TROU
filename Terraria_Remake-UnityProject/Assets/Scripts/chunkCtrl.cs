@@ -45,7 +45,7 @@ public class chunkCtrl : MonoBehaviour {
 
 			chunkAtualizado = true;
 
-			print("MESHGRID DO CHUNK PREENCHIDA");
+			//print("MESHGRID DO CHUNK PREENCHIDA");
 		}
 	}
 

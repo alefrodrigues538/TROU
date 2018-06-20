@@ -176,8 +176,8 @@ MonoBehaviour:
   tipoBackgroundBloco: 
   materialBackgroundBloco: 
   estadoBackgroundBloco: 
-  gridSizeX: 300
-  gridSizeY: 200
+  gridSizeX: 100
+  gridSizeY: 100
   myCam: {fileID: 1019980169}
 --- !u!1 &1019980165
 GameObject:

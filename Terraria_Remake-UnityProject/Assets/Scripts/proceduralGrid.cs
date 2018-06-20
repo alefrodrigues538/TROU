@@ -40,13 +40,13 @@ public class proceduralGrid : MonoBehaviour {
 		//CRIAR MESHGRID
 		if(Input.GetKeyDown(KeyCode.Space) && !podePreencher){
 			makeDiscreteGrid();
-			print("podePreencher");
+			
 			podePreencher = true;
 			
 		}
-		if(Input.GetKeyDown(KeyCode.Alpha1)){
+		if(Input.GetKeyDown(KeyCode.Alpha1) && podePreencher){
 			setDirecaoBlocos();
-			print(direcaoBloco.Count);
+			
 		}
 
 	}
@@ -101,12 +101,15 @@ public class proceduralGrid : MonoBehaviour {
 
 			}
 		}
+
+		print("podePreencher");
 	}
 
 	void setDirecaoBlocos(){
 			direcaoBloco.Clear();
 			for(int x = 0; x < gridSizeX; x++){
 				for(int y = 0; y < gridSizeY; y++){
+
 				//formulas para descobrir blocos em volta
 				int cimaEsquerda = (y + (x * gridSizeY) - (gridSizeY - 1))*4;
 				int cima = (y + (x * gridSizeY) + 1) * 4;
@@ -645,6 +648,8 @@ public class proceduralGrid : MonoBehaviour {
 
 			}
 		}
+
+		print(direcaoBloco.Count);
 
 	}
 }
