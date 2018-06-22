@@ -115,9 +115,7 @@ public class chunkCtrl : MonoBehaviour {
 
 				//tudo
 				else if (
-					pGrid.direcaoBloco[indexBloco] == 2608 ||
-					pGrid.direcaoBloco[indexBloco] == 2576 ||
-					pGrid.direcaoBloco[indexBloco] == 2096 ||
+					pGrid.direcaoBloco[indexBloco] == 0 ||
 					pGrid.direcaoBloco[indexBloco] == 2600 ||
 					pGrid.direcaoBloco[indexBloco] == 2088 ||
 					pGrid.direcaoBloco[indexBloco] == 552 ||
@@ -126,8 +124,13 @@ public class chunkCtrl : MonoBehaviour {
 					pGrid.direcaoBloco[indexBloco] == 8 ||
 					pGrid.direcaoBloco[indexBloco] == 32 ||
 					pGrid.direcaoBloco[indexBloco] == 512 ||
+					pGrid.direcaoBloco[indexBloco] == 520 ||
 					pGrid.direcaoBloco[indexBloco] == 2048 ||
 					pGrid.direcaoBloco[indexBloco] == 544 ||
+					pGrid.direcaoBloco[indexBloco] == 4085 ||
+					pGrid.direcaoBloco[indexBloco] == 690 ||
+					pGrid.direcaoBloco[indexBloco] == 2080 ||
+					pGrid.direcaoBloco[indexBloco] == 2592 ||
 					pGrid.direcaoBloco[indexBloco] == 2056) 
 				{
 					dirBloco = 5;
@@ -340,6 +343,9 @@ public class chunkCtrl : MonoBehaviour {
 					pGrid.direcaoBloco[indexBloco] == 1064 ||
 					pGrid.direcaoBloco[indexBloco] == 1576 ||
 					pGrid.direcaoBloco[indexBloco] == 3112 ||
+					pGrid.direcaoBloco[indexBloco] == 2576 ||
+					pGrid.direcaoBloco[indexBloco] == 2096 ||
+					pGrid.direcaoBloco[indexBloco] == 2608 ||
 					pGrid.direcaoBloco[indexBloco] == 3624) 
 				{
 					dirBloco = 8;
@@ -475,6 +481,7 @@ public class chunkCtrl : MonoBehaviour {
 					pGrid.direcaoBloco[indexBloco] == 3896 ||
 					pGrid.direcaoBloco[indexBloco] == 3864 ||
 					pGrid.direcaoBloco[indexBloco] == 1848 ||
+					pGrid.direcaoBloco[indexBloco] == 1336 ||
 					pGrid.direcaoBloco[indexBloco] == 1816) 
 				{
 					dirBloco = 14;
@@ -524,6 +531,7 @@ public class chunkCtrl : MonoBehaviour {
 					pGrid.direcaoBloco[indexBloco] == 1072 ||
 					pGrid.direcaoBloco[indexBloco] == 3608 ||
 					pGrid.direcaoBloco[indexBloco] == 3096 ||
+					pGrid.direcaoBloco[indexBloco] == 3088 ||
 					pGrid.direcaoBloco[indexBloco] == 1560 ||
 					pGrid.direcaoBloco[indexBloco] == 1048 ||
 					pGrid.direcaoBloco[indexBloco] == 3600 ||
@@ -537,13 +545,13 @@ public class chunkCtrl : MonoBehaviour {
 					uvs.Add(new Vector2(posX*16,posY));
 					uvs.Add(new Vector2(posX*16,posY+(1 / totalBlocosVertical)));
 					
-				}else{
+				}
+				else{
 					uvs.Add(new Vector2(posX*9,posY));
 					uvs.Add(new Vector2(posX*9,posY+(1 / totalBlocosVertical)));
 					uvs.Add(new Vector2(posX*10,posY));
 					uvs.Add(new Vector2(posX*10,posY+(1 / totalBlocosVertical)));
 				}
-
 				dirBloco = 0;
 			}
 		}

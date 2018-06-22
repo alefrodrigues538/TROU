@@ -176,8 +176,14 @@ MonoBehaviour:
   tipoBackgroundBloco: 
   materialBackgroundBloco: 
   estadoBackgroundBloco: 
-  gridSizeX: 2000
-  gridSizeY: 1000
+  gridSizeX: 800
+  gridSizeY: 400
+  xOrg: 4534534
+  yOrg: 252
+  resolucao: 10
+  scale: 0.3
+  seed: 1
+  perlin: 0
 --- !u!1 &1019980165
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +249,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 20
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

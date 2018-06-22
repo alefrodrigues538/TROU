@@ -25,7 +25,14 @@ public class proceduralGrid : MonoBehaviour {
 
 	//lista de blocos em volta
 	List <int> blocosEmVolta = new List <int>();
-	
+ 
+	//propriedades do perlin noise
+	public float xOrg;
+	public float yOrg;
+	public float resolucao = 1f;
+	public float scale = 0.6f;
+	public int seed = 1;
+	public int perlin;
 
 	void Awake(){
 
@@ -170,9 +177,18 @@ public class proceduralGrid : MonoBehaviour {
 		int material = 0;
 		int estado = 1;
 
+        float maxHeight;
 		//Create vertex grid
 		for(int x = 0; x < gridSizeX; x++){
 			for(int y = 0; y < gridSizeY; y++){
+				maxHeight = noiseMap(x,y,scale);
+				if(maxHeight < 0.5f){
+					maxHeight = 0;
+				}else{
+					maxHeight = 1f;
+				}
+				//print(Mathf.FloorToInt(maxHeight));
+
 				material = Random.Range(0,3);
 				//print(material);
 
@@ -211,6 +227,20 @@ public class proceduralGrid : MonoBehaviour {
 
 			}
 		}
+	}
+
+	float noiseMap(float x , float y, float scale){
+		if(scale <= 0){
+			scale = 0.0001f;
+		}
+
+		float sampleX = x / scale * resolucao + xOrg;
+		float sampleY = y / scale * resolucao + yOrg;
+
+		float perlinValue = Mathf.PerlinNoise(sampleX,sampleY);
+
+		return perlinValue;
+
 	}
 
 	public void atualizarDirBloco(){
